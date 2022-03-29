@@ -1,0 +1,52 @@
+{
+  "properties": {
+    "displayName": "po-Tag für Ressourcen erforderlich",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Erzwingt das Vorhandensein eines Tags. Gilt nicht für Ressourcengruppen.",
+    "metadata": {
+      "category": "Tags",
+      "createdBy": "",
+      "createdOn": "2021-07-09T11:21:57.6567212Z",
+      "updatedBy": null,
+      "updatedOn": null
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag-Name",
+          "description": "Name des Tags, z. B. \"Umgebung\""
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+          },
+          {
+            "not": {
+              "field": "type",
+              "equals": "Microsoft.Network/networkWatchers"
+            }
+          },
+          {
+            "not": {
+              "field": "type",
+              "equals": "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  },
+  "id": "/subscriptions/59e8cc8b-7193-435e-98cd-4dadbd2727da/providers/Microsoft.Authorization/policyDefinitions/1dd3a15c-4123-4efe-8088-593c7c1f29a4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "1dd3a15c-4123-4efe-8088-593c7c1f29a4"
+}
